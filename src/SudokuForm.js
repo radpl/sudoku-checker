@@ -6,7 +6,7 @@ const SudokuForm = (props) => {
         <form onSubmit={props.onSubmit}>
             <InputField
                 name="sudoku"
-                value={props.data}
+                value={props.value}
                 onChange={props.onChange}
                 placeholder="input sudoku numbers"
             />
