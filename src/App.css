@@ -4,7 +4,12 @@
     font-family: sans-serif;
 }
 
-.app-header {
+table {
+    margin: 0 auto;
+}
 
-
+.result{
+    margin-bottom:15px;
+    margin-top:15px;
+    font-weight: bold;
 }
