@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css';
 import SudokuForm from './SudokuForm';
 import ResultTable from './ResultTable';
+import { validate } from '@babel/types';
 
 export default class App extends Component {
   constructor() {
@@ -45,6 +46,9 @@ export default class App extends Component {
     event.preventDefault();
     const sudoku = this.state.initialSudoku;
     try {
+      if (!this.validateNumbers(sudoku)) {
+        throw new Error('Not a valid numbers list');
+      };
       const arrPre = JSON.parse(sudoku);
       const midArr = arrPre.reduce((acc, item) => acc.concat([item.split(",")]), []);
       const arrPost = arrPre.reduce((acc, item) => acc.concat(item.split(",").map(Number)), []);
@@ -94,6 +98,13 @@ export default class App extends Component {
       }
     });
 
+  }
+
+  validateNumbers(sudoku) {
+    var onlyNums = /"[1-9]{1}(,[1-9]){8}/g;
+    var found = sudoku.match(onlyNums);
+    console.log(found);
+    return found.length === 9;
   }
 
   checkStatus(data) {
