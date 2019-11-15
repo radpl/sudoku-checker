@@ -26,7 +26,8 @@ export default class App extends Component {
         rows: false,
         cols: false,
         sqrs: false
-      }
+      },
+      error: ""
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,16 +44,24 @@ export default class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const sudoku = this.state.initialSudoku;
-    const arrPre = JSON.parse(sudoku);
-    const midArr = arrPre.reduce((acc, item) => acc.concat([item.split(",")]), []);
-    const arrPost = arrPre.reduce((acc, item) => acc.concat(item.split(",").map(Number)), []);
+    try {
+      const arrPre = JSON.parse(sudoku);
+      const midArr = arrPre.reduce((acc, item) => acc.concat([item.split(",")]), []);
+      const arrPost = arrPre.reduce((acc, item) => acc.concat(item.split(",").map(Number)), []);
+      this.setState({
+        arraySudoku: [...midArr]
+      });
 
-    this.setState({
-      arraySudoku: [...midArr]
-    });
-
-    this.calculate(arrPost);
-
+      this.calculate(arrPost);
+    } catch (error) {
+      this.setState({
+        error: error.message,
+        arraySudoku: [],
+        valuesRows: [],
+        valuesCols: [],
+        valuesSqrs: []
+      })
+    }
   }
 
   calculate(arrPost) {
@@ -91,7 +100,6 @@ export default class App extends Component {
     return data.every(element => element === 45);
   }
   render() {
-    debugger;
     return (
       <div className="container">
         <h1>Sudoku Checker</h1>
@@ -102,6 +110,7 @@ export default class App extends Component {
             onSubmit={this.handleSubmit}
           />
         </div>
+        {this.state.error !== "" ? (<div>Error {this.state.error}</div>) : <></>}
         <div>
           <h2>Loaded sudoku</h2>
           <ResultTable

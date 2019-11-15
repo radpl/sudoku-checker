@@ -5,7 +5,7 @@ const InputField = (props) => {
         <div className="input-main">
             <textarea
                 id="sudoku-input"
-                rows="4" cols="50"
+                rows="11" cols="50"
                 name={props.name}
                 className="input-text"
                 placeholder={props.placeholder}
